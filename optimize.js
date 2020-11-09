@@ -32,7 +32,7 @@ module.exports.handle = async ({ Records: records }) => {
 
     return {
       statusCode: 201,
-      body: {}
+      body: {hey: "nice"}
     }
 
   } catch (err) {
