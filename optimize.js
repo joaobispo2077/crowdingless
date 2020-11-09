@@ -17,11 +17,11 @@ module.exports.handle = async ({ Records: records }) => {
       }).promise();
 
       const optimized = await sharp(image.Body)
-        .resize(1280, 720, { fiat: 'inside', withoutEnlargement: true })
+        .resize(1280, 720, { fit: 'inside', withoutEnlargement: true })
         .toFormat('jpeg', { progressive: true, quality: 50 })
         .toBuffer();
 
-      await s3.putObject({
+      await S3.putObject({
         Body: optimized,
         Bucket: process.env.bucket,
         ContentType: 'image/jpeg',

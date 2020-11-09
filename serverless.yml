@@ -10,35 +10,35 @@ provider:
   region: sa-east-1
   memorySize: 256
   iamRoleStatements:
-    - Effect: Allow
+    - Effect: "Allow"
       Action:
-        - s3:GetObject
-        - s3:PutObject
+        - "s3:GetObject"
+        - "s3:PutObject"
       Resource:
-        - "arn:aws:s3:::*"
+        - "*"
 
 
 
 functions:
   optimize:
     handler: optimize.handle
-    enviroment: 
-      bucket: bucketCrowdingless
+    environment: 
+      bucket: bucketimagecrowdingless
     events:
       - s3:
-          bucket: bucketCrowdingless
+          bucket: bucketimagecrowdingless
           event: s3:ObjectCreated:*
           rules:
             - prefix: uploads/
             - suffix: .jpg
       - s3:
-          bucket: bucketCrowdingless
+          bucket: bucketimagecrowdingless
           event: s3:ObjectCreated:*
           rules:
             - prefix: uploads/
             - suffix: .png
       - s3:
-          bucket: bucketCrowdingless
+          bucket: bucketimagecrowdingless
           event: s3:ObjectCreated:*
           rules:
             - prefix: uploads/
