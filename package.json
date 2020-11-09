@@ -1,4 +1,17 @@
 {
+
+  "name": "crowdingless",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "predeploy": "rm -rf node_modules/sharp && yarn install --platform linux --arch=x64 --target=12.x",
+    "deploy": "severless deploy -v",
+    "postdeploy": "rm -rf node_modules/sharp && yarn install sharp"
+    
+  },
+  "repository": "https://github.com/joaobispo2077/crowdingless.git",
+  "author": "João Bispo <vitor.vi10@hotmail.com>",
+  "license": "MIT",
   "dependencies": {
     "sharp": "^0.26.2"
   }
