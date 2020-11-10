@@ -17,38 +17,39 @@ provider:
       Resource:
         - "*"
 
-
+environment:
+  DYNAMODB_EMPLOYEE_TABLE: employeeTable
 
 functions:
   create: 
-    handler: user.create
+    handler: employee.create
     events:
       - http:
-          path: /v1/user
+          path: /v1/employee
           method: post
   list: 
-    handler: user.list
+    handler: employee.list
     events:
       - http:
-          path: /v1/user
+          path: /v1/employee
           method: get
   get: 
-    handler: user.get
+    handler: employee.get
     events:
       - http:
-          path: /v1/user/{email}
+          path: /v1/employee/{email}
           method: get
   update: 
-    handler: user.update
+    handler: employee.update
     events:
       - http:
-          path: /v1/user/{email}
+          path: /v1/employee/{email}
           method: put
   delete: 
-    handler: user.delete
+    handler: employee.delete
     events:
       - http:
-          path: /v1/user/{email}
+          path: /v1/employee/{email}
           method: delete
   optimize:
     handler: optimize.handle
