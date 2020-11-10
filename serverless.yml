@@ -20,6 +20,36 @@ provider:
 
 
 functions:
+  create: 
+    handler: user.create
+    events:
+      - http:
+          path: /v1/user
+          method: post
+  list: 
+    handler: user.list
+    events:
+      - http:
+          path: /v1/user
+          method: get
+  get: 
+    handler: user.get
+    events:
+      - http:
+          path: /v1/user/{email}
+          method: get
+  update: 
+    handler: user.update
+    events:
+      - http:
+          path: /v1/user/{email}
+          method: put
+  delete: 
+    handler: user.delete
+    events:
+      - http:
+          path: /v1/user/{email}
+          method: delete
   optimize:
     handler: optimize.handle
     environment: 
