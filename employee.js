@@ -95,10 +95,11 @@ module.exports = {
     
   },  
   get: async(event, context) => {
+    const body = JSON.parse(event.body);
     const employeeSearch = {
       TableName: process.env.DYNAMODB_EMPLOYEE_TABLE,
       Key: {
-        email: JSON.parse(event.body).email // or event.pathParameters.email
+        email: body.email // or event.pathParameters.email
       }
     }
 
@@ -182,7 +183,7 @@ module.exports = {
 
     } catch (err) {
       console.log('employeeSearch: ', employeeSearch);
-      console.log('Im error on the get employee \n', err);
+      console.log('Im error on the update employee \n', err);
 
       return {
         statusCode: 500
@@ -190,6 +191,31 @@ module.exports = {
     }
   },
   delete: async(event, context) => {
-    
+    const body = JSON.parse(event.body);
+    const employeeSearch = {
+      TableName: process.env.DYNAMODB_EMPLOYEE_TABLE,
+      Key: {
+        email: body.email // or event.pathParameters.email
+      }
+    }
+
+    try {
+      const dynamodb = new AWS.DynamoDB.DocumentClient();
+      const employeeDeleted = await dynamodb.delete(employeeSearch).promise();      
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(employeeDeleted.Item)
+      }
+
+    } catch (err) {
+      console.log('employeeSearch: ', employeeSearch);
+      console.log('Im error on the delete employee \n', err);
+
+      return {
+        statusCode: 500
+      }
+    }
+
   }
 }
