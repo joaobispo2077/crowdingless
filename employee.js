@@ -41,7 +41,7 @@ module.exports = {
       const createdEmployee = await dynamodb.put(employee).promise();
       return {
         statusCode: 201,
-        body: createdEmployee
+        body: JSON.stringify(createdEmployee.Item)
       }
     } catch (err) {
       console.log('employee: ', employee);
@@ -95,9 +95,41 @@ module.exports = {
     
   },  
   get: async(event, context) => {
-    
+    const employeeSearch = {
+      TableName: process.env.DYNAMODB_EMPLOYEE_TABLE,
+      Key: {
+        email: JSON.parse(event.body).email // or event.pathParameters.email
+      }
+    }
+
+    try {
+      const dynamodb = new AWS.DynamoDB.DocumentClient();
+      const employee = await dynamodb.get(employeeSearch).promise();
+
+      const isNullEmployee = (employee.Item === null);
+
+      if (isNullEmployee) return { statusCode: 404 }
+      
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          name: employee.Item.name,
+          email: employee.Item.email
+        })
+      }
+
+    } catch (err) {
+      console.log('employeeSearch: ', employeeSearch);
+      console.log('Im error on the get employee \n', err);
+
+      return {
+        statusCode: 500
+      }
+    }
+
   },
-   update: async(event, context) => {
+  update: async(event, context) => {
     
   },
   delete: async(event, context) => {
