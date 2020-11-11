@@ -54,7 +54,45 @@ module.exports = {
 
   },
   list: async(event, context) => {
+    const employeeSearch = {
+      TableName: new AWS.DYNAMODB_EMPLOYEE_TABLE
+    }
 
+    try {
+      const dynamodb = new AWS.DynamoDB.DocumentClient();
+      const employees = await dynamodb.scan(employeeSearch).promise();
+
+      const isNull = (employees.Items === null);
+      const isNotAnArray = (!Array.isArray(employees.Items));
+      const hasntData = (employees.length === 0);
+
+      if (isNull || isNotAnArray || hasntData) {
+        return {
+          statusCode: 404
+        }
+      }
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(employees.Items,map(employee => {
+          return {
+            name: employee.name,
+            email: employee.email
+          }
+        }))
+      }
+
+    } catch (err) {
+      console.log('employeeSearch: ', employeeSearch);
+      console.log('I am a error on the create employee hehe \n', err);
+      return {
+        statusCode: 500,
+        body: { message: "Server needs help!"}
+      }
+    }
+      
+    
+    
   },  
   get: async(event, context) => {
     
