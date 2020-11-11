@@ -76,8 +76,9 @@ module.exports = {
         statusCode: 200,
         body: JSON.stringify(employees.Items,map(employee => {
           return {
-            name: employee.name,
-            email: employee.email
+            name: employee.name,            
+            email: employee.email,
+            company: employee.company
           }
         }))
       }
@@ -116,7 +117,8 @@ module.exports = {
         statusCode: 200,
         body: JSON.stringify({
           name: employee.Item.name,
-          email: employee.Item.email
+          email: employee.Item.email,
+          company: employee.Item.company,
         })
       }
 

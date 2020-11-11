@@ -8,7 +8,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: sa-east-1
-  memorySize: 256
+  memorySize: 512
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -17,8 +17,8 @@ provider:
       Resource:
         - "*"
 
-environment:
-  DYNAMODB_EMPLOYEE_TABLE: employeeTable
+  environment:
+    DYNAMODB_EMPLOYEE_TABLE: ${self:service}-employees-${opt:stage}
 
 functions:
   create: 
@@ -74,3 +74,18 @@ functions:
           rules:
             - prefix: uploads/
             - suffix: .jpeg
+
+resources:
+  Resources: 
+    employeeTable: 
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: ${self:service}-employees-${opt:stage}
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
