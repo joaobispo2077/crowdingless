@@ -130,7 +130,64 @@ module.exports = {
 
   },
   update: async(event, context) => {
+    const body = JSON.parse(event.body);
+    try {
+      console.log(body);
+    } catch (err) {
+      console.log('I am a error on the pick body hehe \n', err);
+      return {
+        statusCode: 400,
+        body: { message: "Daaamn!"}
+      }
+    }
+    const hasntName = (typeof body.name === 'undefined');
+
+    if (hasntName) {
+      console.log("Missing parameters");
+      return {
+        statusCode: 400,
+        body: { message: "Daaamn!"}
+      }
+    }
+    const employeeSearch = {
+      TableName: process.env.DYNAMODB_EMPLOYEE_TABLE,
+      Key: {
+        name: body.name // or event.pathParameters.name
+      },
+      UpdateExpression: 'set #name = :name',
+      ExpressionAttributeName: {
+        '#name': 'name'
+      },
+      ExpressionAttributeValues: { 
+        ':name': body.name
+      }
+    }
+
     
+    try {
+      const dynamodb = new AWS.DynamoDB.DocumentClient();
+      const employeeUpdated = await dynamodb.update(employeeSearch).promise();
+
+      const isNullEmployee = (employeeUpdated.Item === null);
+
+      if (isNullEmployee) return { statusCode: 404 }
+      
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify(
+          employeeUpdated.Item
+        )
+      }
+
+    } catch (err) {
+      console.log('employeeSearch: ', employeeSearch);
+      console.log('Im error on the get employee \n', err);
+
+      return {
+        statusCode: 500
+      }
+    }
   },
   delete: async(event, context) => {
     
