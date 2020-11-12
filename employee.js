@@ -41,7 +41,7 @@ module.exports = {
       console.log(createdEmployee);
       return {
         statusCode: 201,
-        body: JSON.stringify(createdEmployee)
+        body: JSON.stringify(createdEmployee.Attributes)
       }
     } catch (err) {
       console.log('employee: ', employee);
@@ -171,16 +171,14 @@ module.exports = {
       const dynamodb = new AWS.DynamoDB.DocumentClient();
       const employeeUpdated = await dynamodb.update(employeeSearch).promise();
 
-      const isNullEmployee = (employeeUpdated.Item === null);
+      const isNullEmployee = (employeeUpdated.Attributes === null);
 
       if (isNullEmployee) return { statusCode: 404 }
       
 
       return {
         statusCode: 200,
-        body: JSON.stringify(
-          employeeUpdated.Item
-        )
+        body: JSON.stringify(employeeUpdated.Attributes)
       }
 
     } catch (err) {
@@ -208,7 +206,7 @@ module.exports = {
 
       return {
         statusCode: 200,
-        body: JSON.stringify(employeeDeleted)
+        body: JSON.stringify(employeeDeleted.Attributes)
       }
 
     } catch (err) {
