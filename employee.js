@@ -96,11 +96,11 @@ module.exports = {
     
   },  
   get: async(event, context) => {
-    const body = JSON.parse(event.body);
+    const params = event.pathParameters;
     const employeeSearch = {
       TableName: process.env.DYNAMODB_EMPLOYEE_TABLE,
       Key: {
-        email: body.email // or event.pathParameters.email
+        email: params.email // or event.pathParameters.email
       }
     }
 
@@ -133,9 +133,11 @@ module.exports = {
 
   },
   update: async(event, context) => {
-    const body = JSON.parse(event.body);
+    const body = event.body;
+    const params = event.pathParameters;
     try {
       console.log(body);
+      console.log(params);
     } catch (err) {
       console.log('I am a error on the pick body hehe \n', err);
       return {
@@ -155,7 +157,7 @@ module.exports = {
     const employeeSearch = {
       TableName: process.env.DYNAMODB_EMPLOYEE_TABLE,
       Key: {
-        name: body.name // or event.pathParameters.name
+        email: params.email // or event.pathParameters.email
       },
       UpdateExpression: 'set #name = :name',
       ExpressionAttributeName: {
@@ -193,11 +195,11 @@ module.exports = {
     }
   },
   delete: async(event, context) => {
-    const body = JSON.parse(event.body);
+    const params = event.pathParameters);
     const employeeSearch = {
       TableName: process.env.DYNAMODB_EMPLOYEE_TABLE,
       Key: {
-        email: body.email // or event.pathParameters.email
+        email: params.email // or event.pathParameters.email
       }
     }
 
