@@ -14,6 +14,11 @@ provider:
       Action:
         - "s3:GetObject"
         - "s3:PutObject"
+        - dynamodb:PutItem
+        - dynamodb:Scan*
+        - dynamodb:GetItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
       Resource:
         - "*"
 

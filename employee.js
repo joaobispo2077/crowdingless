@@ -16,32 +16,32 @@ module.exports = {
     const hasntName = (typeof body.name === 'undefined');
     const hasntEmail = (typeof body.name === 'undefined');
 
-    if (hasntName|| hasntEmail) {
+    if (hasntName || hasntEmail) {
       console.log("Missing parameters");
       return {
         statusCode: 400,
         body: { message: "Daaamn!"}
       }
+    } 
+    const employeeData = {
+      name: body.name,
+      email: body.email,
+      company: body.company
     }
 
     const employee = {
       TableName: process.env.DYNAMODB_EMPLOYEE_TABLE,
-      Item: {
-        name: body.name,
-        email: body.email,
-        company: body.company
-        // password: body.password,
-        // role: body.role,
-        // avatar: body.avatar,
-      }
+      Item: employeeData,
+      ReturnValues: 'ALL_OLD'
     }
 
     try {
       const dynamodb = new AWS.DynamoDB.DocumentClient();
       const createdEmployee = await dynamodb.put(employee).promise();
+      console.log(createdEmployee);
       return {
         statusCode: 201,
-        body: JSON.stringify(createdEmployee.Item)
+        body: JSON.stringify(createdEmployee)
       }
     } catch (err) {
       console.log('employee: ', employee);
@@ -55,7 +55,7 @@ module.exports = {
   },
   list: async(event, context) => {
     const employeeSearch = {
-      TableName: new AWS.DYNAMODB_EMPLOYEE_TABLE
+      TableName: process.env.DYNAMODB_EMPLOYEE_TABLE
     }
 
     try {
@@ -74,7 +74,7 @@ module.exports = {
 
       return {
         statusCode: 200,
-        body: JSON.stringify(employees.Items,map(employee => {
+        body: JSON.stringify(employees.Items.map(employee => {
           return {
             name: employee.name,            
             email: employee.email,
@@ -106,20 +106,17 @@ module.exports = {
 
     try {
       const dynamodb = new AWS.DynamoDB.DocumentClient();
-      const employee = await dynamodb.get(employeeSearch).promise();
+      const employeeData = await dynamodb.get(employeeSearch).promise();
 
-      const isNullEmployee = (employee.Item === null);
+      const employee = employeeData.Item;
+      const isNullEmployee = (employee === null);
 
       if (isNullEmployee) return { statusCode: 404 }
       
 
       return {
         statusCode: 200,
-        body: JSON.stringify({
-          name: employee.Item.name,
-          email: employee.Item.email,
-          company: employee.Item.company,
-        })
+        body: JSON.stringify(employee)
       }
 
     } catch (err) {
@@ -133,7 +130,7 @@ module.exports = {
 
   },
   update: async(event, context) => {
-    const body = event.body;
+    const body = JSON.parse(event.body);
     const params = event.pathParameters;
     try {
       console.log(body);
@@ -145,7 +142,7 @@ module.exports = {
         body: { message: "Daaamn!"}
       }
     }
-    const hasntName = (typeof body.name === 'undefined');
+    const hasntName = (typeof body.name === undefined);
 
     if (hasntName) {
       console.log("Missing parameters");
@@ -159,13 +156,14 @@ module.exports = {
       Key: {
         email: params.email // or event.pathParameters.email
       },
-      UpdateExpression: 'set #name = :name',
-      ExpressionAttributeName: {
+      UpdateExpression: 'SET #name = :name',
+      ExpressionAttributeNames: {
         '#name': 'name'
       },
       ExpressionAttributeValues: { 
         ':name': body.name
-      }
+      },
+      ReturnValues: 'ALL_NEW'
     }
 
     
@@ -195,12 +193,13 @@ module.exports = {
     }
   },
   delete: async(event, context) => {
-    const params = event.pathParameters);
+    const params = event.pathParameters;
     const employeeSearch = {
       TableName: process.env.DYNAMODB_EMPLOYEE_TABLE,
       Key: {
         email: params.email // or event.pathParameters.email
-      }
+      },
+      ReturnValues: 'ALL_OLD'
     }
 
     try {
@@ -209,7 +208,7 @@ module.exports = {
 
       return {
         statusCode: 200,
-        body: JSON.stringify(employeeDeleted.Item)
+        body: JSON.stringify(employeeDeleted)
       }
 
     } catch (err) {
