@@ -49,7 +49,7 @@ functions:
     events:
       - http:
           path: /v1/employee/{email}
-          method: put
+          method: patch
   delete: 
     handler: employee.delete
     events:
