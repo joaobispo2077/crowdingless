@@ -8,7 +8,11 @@
     "postdeploy": "rm -rf node_modules/sharp && yarn add sharp",
     "prewindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp",
     "windeploy": "serverless deploy -v",
-    "postwindeploy": "rd /q /s node_modules & yarn add sharp"
+    "postwindeploy": "rd /q /s node_modules & yarn add sharp",
+    "predevwindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp",
+    "devwindeploy": "serverless deploy -v --stage dev",
+    "postdevwindeploy": "rd /q /s node_modules & yarn add sharp",
+    "logs": "serverless logs -f list --stage dev"
   },
   "repository": "https://github.com/joaobispo2077/crowdingless.git",
   "author": "João Bispo <vitor.vi10@hotmail.com>",
