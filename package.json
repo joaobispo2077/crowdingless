@@ -3,21 +3,26 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "predeploy": "rm -rf node_modules/sharp && yarn add --platform=linux --arch=x64 --target=12.x sharp",
+    "predeploy": "rm -rf node_modules/sharp && yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors",
     "deploy": "serverless deploy -v",
-    "postdeploy": "rm -rf node_modules/sharp && yarn add sharp",
-    "prewindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp",
+    "postdeploy": "rm -rf node_modules/sharp && yarn add sharp aws-serverless-express express cors",
+    "prewindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors",
     "windeploy": "serverless deploy -v",
-    "postwindeploy": "rd /q /s node_modules & yarn add sharp",
-    "predevwindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp",
+    "postwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors",
+    "predevwindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors",
     "devwindeploy": "serverless deploy -v --stage dev",
-    "postdevwindeploy": "rd /q /s node_modules & yarn add sharp",
-    "logs": "serverless logs -f list --stage dev"
+    "postdevwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors",
+    "logs": "serverless logs -f list --stage dev",
+    "destroy": "serverless remove",
+    "destroydev": "serverless remove --stage dev"
   },
   "repository": "https://github.com/joaobispo2077/crowdingless.git",
   "author": "João Bispo <vitor.vi10@hotmail.com>",
   "license": "MIT",
   "dependencies": {
+    "aws-serverless-express": "^3.3.8",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "sharp": "^0.26.2"
   }
 }
