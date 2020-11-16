@@ -1,5 +1,6 @@
-const employeeModel = require('../models/employeeModel');
+'use strict';
 
+const employeeModel = require('../models/employeeModel');
 
 module.exports = {
   async create(data) {
