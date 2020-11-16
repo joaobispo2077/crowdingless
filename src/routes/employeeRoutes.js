@@ -1,23 +1,8 @@
 const routes = require('express').Router({ mergeParams: true });
+const Employee = require('../controllers/employeeController');
 
-routes.get('/', (req, res, next) => {
-
-  res.status(200).json({ message: "You're rock!"})
-});
-
-routes.post('/', (req, res, next) => {
-  const body = req.body;
-
-
-  const employeeData = {
-    name: body.name,
-    email: body.email,
-    company: body.company
-  }
-
-
-  res.status(201).json(employeeData);
-});
-
+routes.get('/', Employee.listAll);
+routes.get('/:email', Employee.getByEmail);
+routes.post('/', Employee.create);
 
 module.exports = routes;

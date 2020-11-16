@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
+const employeeModels = require('./models/employeeModel');
 
 const employeeRoutes = require('./routes/employeeRoutes');
 

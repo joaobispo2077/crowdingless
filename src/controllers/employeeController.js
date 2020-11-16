@@ -33,7 +33,7 @@ module.exports = {
     
   },
 
-  async getById(req, res, next) {
+  async getByEmail(req, res, next) {
     const { id } = req.params;
 
     const hasntId = (typeof id === 'undefined' || id.lenght == 0);
@@ -44,7 +44,7 @@ module.exports = {
     }
 
     try {
-      const employee = await employeeRepositories.getById(id);
+      const employee = await employeeRepositories.getByEmail(id);
       res.status(200).json(employee);
     } catch (err) {
       console.log('Error at get an employee', err);

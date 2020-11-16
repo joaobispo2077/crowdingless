@@ -13,8 +13,8 @@ module.exports = {
     return employees;
   },
 
-  async getById(id) {
-    const employee = await employeeModel.get(id).promise();
+  async getByEmail(email) {
+    const employee = await employeeModel.get(email).promise();
     return employee;
   }
 }
