@@ -34,17 +34,17 @@ module.exports = {
   },
 
   async getByEmail(req, res, next) {
-    const { id } = req.params;
+    const { email } = req.params;
 
-    const hasntId = (typeof id === 'undefined' || id.lenght == 0);
+    const hasntemail = (typeof email === 'undefined' || email.lenght == 0);
 
-    if (hasntId) {
-      res.status(400).json({message: 'id inválido'});
+    if (hasntemail) {
+      res.status(400).json({message: 'email inválido'});
       return;
     }
 
     try {
-      const employee = await employeeRepositories.getByEmail(id);
+      const employee = await employeeRepositories.getByEmail(email);
       res.status(200).json(employee);
     } catch (err) {
       console.log('Error at get an employee', err);
