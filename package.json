@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "predeploy": "rm -rf node_modules/sharp && yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors",
+    "predeploy": "rm -rf node_modules/sharp && yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox",
     "deploy": "serverless deploy -v",
-    "postdeploy": "rm -rf node_modules/sharp && yarn add sharp aws-serverless-express express cors",
-    "prewindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors",
+    "postdeploy": "rm -rf node_modules/sharp && yarn add sharp aws-serverless-express express cors dynamodb-toolbox",
+    "prewindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox",
     "windeploy": "serverless deploy -v",
-    "postwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors",
-    "predevwindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors",
+    "postwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors dynamodb-toolbox",
+    "predevwindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox",
     "devwindeploy": "serverless deploy -v --stage dev",
-    "postdevwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors",
+    "postdevwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors dynamodb-toolbox",
     "logs": "serverless logs -f list --stage dev",
     "destroy": "serverless remove",
     "destroydev": "serverless remove --stage dev"
@@ -22,6 +22,7 @@
   "dependencies": {
     "aws-serverless-express": "^3.3.8",
     "cors": "^2.8.5",
+    "dynamodb-toolbox": "^0.2.0-beta.1",
     "express": "^4.17.1",
     "sharp": "^0.26.2"
   }
