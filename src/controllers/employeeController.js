@@ -88,18 +88,23 @@ module.exports = {
       res.status(200).json(employees);
 
     } catch (err) {
-      console.log('Error at list all employees', err);
+      console.log('Error at update employee', err);
       res.status(500).json({error: 'internal server error'});
     }
   },
 
   async remove(req, res, next) {
     const { email } = req.params;
+
+    const deteleParams = {
+      email
+    }
+
     try {
-      const employees = await employeeRepositories.remove(email);
+      const employees = await employeeRepositories.delete(deteleParams);
       res.status(200).json(employees);
     } catch (err) {
-      console.log('Error at list all employees', err);
+      console.log('Error at remove employee', err);
       res.status(500).json({error: 'internal server error'});
     }
   }

@@ -4,7 +4,7 @@ const Employee = require('../controllers/employeeController');
 routes.get('/', Employee.listAll);
 routes.get('/:email', Employee.getByEmail);
 routes.post('/', Employee.create);
-routes.get('/:email', Employee.update);
-routes.get('/:email', Employee.remove);
+routes.patch('/:email', Employee.update);
+routes.delete('/:email', Employee.remove);
 
 module.exports = routes;
