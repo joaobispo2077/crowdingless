@@ -1,25 +1,26 @@
 'use strict';
+const crypto = require('crypto');
 
-const { getById } = require('../repositories/employeeRepositories');
 const employeeRepositories = require('../repositories/employeeRepositories');
 
 module.exports = {
 
   async create(req, res, next) {
-    const { name, email, company } = req.body;
+    const { name, email, company, status } = req.body;
 
-    const hasntEmail = (typeof email === 'undefined' || email.lenght == 0);    
-    if (hasntEmail) {
-      res.status(400).json({message: 'email inválido'});
-      return;
-    }
+    // const hasntEmail = (typeof email === undefined || email.lenght == 0);    
+    // if (hasntEmail) {
+    //   res.status(400).json({message: 'email inválido'});
+    //   return;
+    // }
 
     const employee = {
-      name,
-      email,
-      company
-    };
+      email: email,
+      name: name,
+      company: company,
 
+    };
+    console.log(employee);
     try{
       const createdEmployee = await employeeRepositories.create(employee);
       console.log(createdEmployee);
@@ -34,7 +35,7 @@ module.exports = {
   },
 
   async getByEmail(req, res, next) {
-    const { email } = req.params;
+    const {  email } = req.params;
 
     const hasntemail = (typeof email === 'undefined' || email.lenght == 0);
 
@@ -42,9 +43,13 @@ module.exports = {
       res.status(400).json({message: 'email inválido'});
       return;
     }
+    const searchParams = {
+      email: email,
+
+    }
 
     try {
-      const employee = await employeeRepositories.getByEmail(email);
+      const employee = await employeeRepositories.getByEmail(searchParams);
       res.status(200).json(employee);
     } catch (err) {
       console.log('Error at get an employee', err);
@@ -56,6 +61,42 @@ module.exports = {
   async listAll(req, res, next) {
     try {
       const employees = await employeeRepositories.listAll();
+      res.status(200).json(employees);
+    } catch (err) {
+      console.log('Error at list all employees', err);
+      res.status(500).json({error: 'internal server error'});
+    }
+  },
+
+  async update(req, res, next) {
+    const { email } = req.params;
+    const { name } = req.body;
+    const hasntemail = (typeof email === 'undefined' || email.lenght == 0);
+
+    if (hasntemail) {
+      res.status(400).json({message: 'email inválido'});
+      return;
+    }
+    const updateParams = {
+      name,
+      email
+    }
+
+    try {
+
+      const employees = await employeeRepositories.update(updateParams);
+      res.status(200).json(employees);
+
+    } catch (err) {
+      console.log('Error at list all employees', err);
+      res.status(500).json({error: 'internal server error'});
+    }
+  },
+
+  async remove(req, res, next) {
+    const { email } = req.params;
+    try {
+      const employees = await employeeRepositories.remove(email);
       res.status(200).json(employees);
     } catch (err) {
       console.log('Error at list all employees', err);

@@ -12,7 +12,7 @@
     "predevwindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox",
     "devwindeploy": "serverless deploy -v --stage dev",
     "postdevwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors dynamodb-toolbox",
-    "logs": "serverless logs -f list --stage dev",
+    "logs": "serverless logs -f crowdingless-api --stage dev",
     "destroy": "serverless remove",
     "destroydev": "serverless remove --stage dev"
   },
@@ -24,6 +24,6 @@
     "cors": "^2.8.5",
     "dynamodb-toolbox": "^0.2.0-beta.1",
     "express": "^4.17.1",
-    "sharp": "^0.26.2"
+    "sharp": "^0.26.3"
   }
 }

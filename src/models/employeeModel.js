@@ -7,19 +7,18 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 const employeeTable = new Table({
   name: process.env.DYNAMODB_EMPLOYEE_TABLE,
-  partitionKey: 'pk',
-  sortKey: 'sk',
+  partitionKey: 'email',
   DocumentClient: docClient
 });
 
 const employeeModel = new Entity({
   name: 'Employee',
   attributes: {
-    email: { partitionKey: true, type: 'String', required: true },
-    sk: { sortKey: true },
-    name: { type: 'String', required: true },
-    company: { type: 'String', required: true },
-    avatar: { type: 'String',  required: false },
+    email: { partitionKey: true },
+    name: { type: 'string', required: true },
+    company: { type: 'string', required: true },
+    avatar: { type: 'string',  required: false },
+
 
   },
   table: employeeTable,
