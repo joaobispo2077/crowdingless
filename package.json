@@ -20,11 +20,13 @@
   "author": "João Bispo <vitor.vi10@hotmail.com>",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.794.0",
     "aws-serverless-express": "^3.3.8",
     "cors": "^2.8.5",
     "dynamodb-toolbox": "^0.2.0-beta.1",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
+    "multer-s3": "^2.9.0",
     "sharp": "^0.26.3"
   }
 }
