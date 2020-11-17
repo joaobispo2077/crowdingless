@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "predeploy": "rm -rf node_modules/sharp && yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox",
+    "predeploy": "rm -rf node_modules/sharp && yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
     "deploy": "serverless deploy -v",
-    "postdeploy": "rm -rf node_modules/sharp && yarn add sharp aws-serverless-express express cors dynamodb-toolbox",
-    "prewindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox",
+    "postdeploy": "rm -rf node_modules/sharp && yarn add sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
+    "prewindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
     "windeploy": "serverless deploy -v",
-    "postwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors dynamodb-toolbox",
-    "predevwindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox",
+    "postwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
+    "predevwindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
     "devwindeploy": "serverless deploy -v --stage dev",
-    "postdevwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors dynamodb-toolbox",
+    "postdevwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
     "logs": "serverless logs -f crowdingless-api --stage dev",
     "destroy": "serverless remove",
     "destroydev": "serverless remove --stage dev"
@@ -26,6 +26,7 @@
     "dynamodb-toolbox": "^0.2.0-beta.1",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "multer-s3": "^2.9.0",
     "sharp": "^0.26.3"
   }

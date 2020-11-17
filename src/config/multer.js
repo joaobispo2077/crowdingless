@@ -1,12 +1,12 @@
-const multer = require('multer');
 const path = require('path');
 const crypto = require('crypto');
 const AWS = require('aws-sdk');
 const multerS3 = require('multer-s3');
 
+const awsS3 = new AWS.S3();
 const storageTypes = {
   s3: multerS3({
-    s3: new AWS.S3(),
+    s3: awsS3,
     bucket: process.env.bucket,
     contentType: multerS3.AUTO_CONTENT_TYPE,
     acl: 'public-read',
@@ -25,9 +25,9 @@ const storageTypes = {
   //local:
 }
 
-const multerConfig = {
+module.exports = {
   dest: path.resolve(__dirname, '..', '..', 'tmp', 'uploads'),
-  storage: storageTypes[s3],
+  storage: storageTypes.s3,
   limits: 10 * 1024 * 1024,
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
@@ -45,5 +45,5 @@ const multerConfig = {
       cb(new Error('Invalid file Type.'));
     }
   }
-
 }
+

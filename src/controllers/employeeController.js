@@ -6,19 +6,26 @@ const employeeRepositories = require('../repositories/employeeRepositories');
 module.exports = {
 
   async create(req, res, next) {
-    const { name, email, company, status } = req.body;
+    const { name, email, company } = req.body;
+    const { 
+      originalname: avatar_name, 
+      location: avatar = '',
+      key: avatar_key,
+     } = await req.file;
 
-    // const hasntEmail = (typeof email === undefined || email.lenght == 0);    
-    // if (hasntEmail) {
-    //   res.status(400).json({message: 'email inválido'});
-    //   return;
-    // }
+    const hasntEmail = (typeof email === undefined || email.lenght == 0);    
+    if (hasntEmail) {
+      res.status(400).json({message: 'email inválido'});
+      return;
+    }
 
     const employee = {
-      email: email,
-      name: name,
-      company: company,
-
+      email,
+      name,
+      company,
+      avatar,
+      avatar_name,
+      avatar_key,
     };
     console.log(employee);
     try{

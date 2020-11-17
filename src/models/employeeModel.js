@@ -18,6 +18,8 @@ const employeeModel = new Entity({
     name: { type: 'string', required: true },
     company: { type: 'string', required: true },
     avatar: { type: 'string',  required: false },
+    avatar_name: { type: 'string',  required: false },
+    avatar_key: { type: 'string',  required: false },
 
 
   },
