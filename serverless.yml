@@ -28,10 +28,11 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - "*"
+        - "arn:aws:s3:::bucketimagecrowdingless"
+        - "arn:aws:dynamodb:sa-east-1:998571726230:table/crowdingless-employees-dev"
 
   environment:
-    DYNAMODB_EMPLOYEE_TABLE: ${self:service}-employees-${opt:stage}
+    DYNAMODB_EMPLOYEE_TABLE: "${self:service}-employees-${opt:stage}"
     bucket: bucketimagecrowdingless
 
 functions:
@@ -105,7 +106,7 @@ resources:
     employeeTable: 
       Type: 'AWS::DynamoDB::Table'
       Properties:
-        TableName: ${self:service}-employees-${opt:stage}
+        TableName: "${self:service}-employees-${opt:stage}"
         AttributeDefinitions:
           - AttributeName: email
             AttributeType: S
