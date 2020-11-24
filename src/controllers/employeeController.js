@@ -8,9 +8,9 @@ module.exports = {
   async create(req, res, next) {
     const { name, email, company } = req.body;
     const { 
-      originalname: avatar_name, 
-      location: avatar = '',
-      key: avatar_key,
+      originalname: avatar_name = 'abc', 
+      location: avatar = 'abc',
+      key: avatar_key = 'abc',
      } = await req.file;
 
     const hasntEmail = (typeof email === undefined || email.lenght == 0);    
