@@ -8,16 +8,20 @@ service: crowdingless
 frameworkVersion: '2'
 
 plugins:
-  - serverless-s3-local
-  - serverless-dynamodb-local
-  - serverless-offline
+  # - serverless-s3-local
+  # - serverless-dynamodb-local
+  - serverless-step-functions
+  # - serverless-offline
 
+custom:
+  EMPLOYEE_TABLE: crowdingless-employees-${opt:stage}
 
 provider:
   apiGateway:
       binaryMediaTypes:
           - 'multipart/form-data'
   name: aws
+  stage: ${opt:stage, 'dev'}
   runtime: nodejs12.x
   region: sa-east-1
   memorySize: 512
@@ -33,12 +37,12 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - "arn:aws:s3:::bucketimagecrowdingless/*"
-        - "arn:aws:dynamodb:sa-east-1:998571726230:table/crowdingless-employees-dev"
+        - "arn:aws:s3:::*"
+        - "arn:aws:dynamodb:sa-east-1:*:table/crowdingless-employees-${opt:stage}"
 
 
   environment:
-    DYNAMODB_EMPLOYEE_TABLE: crowdingless-employees-dev
+    DYNAMODB_EMPLOYEE_TABLE: ${self:custom.EMPLOYEE_TABLE}
     bucket: bucketimagecrowdingless
 
 functions:
@@ -112,7 +116,7 @@ resources:
     employeeTable: 
       Type: 'AWS::DynamoDB::Table'
       Properties:
-        TableName: crowdingless-employees-dev
+        TableName: ${self:custom.EMPLOYEE_TABLE}
         AttributeDefinitions:
           - AttributeName: email
             AttributeType: S
