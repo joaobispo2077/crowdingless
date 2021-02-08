@@ -7,3 +7,6 @@ jspm_packages
 
 # project files
 *.env
+
+#folders
+bucket/bucketimagecrowdingless/*

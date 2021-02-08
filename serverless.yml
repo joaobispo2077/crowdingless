@@ -7,6 +7,11 @@ service: crowdingless
 
 frameworkVersion: '2'
 
+plugins:
+  - serverless-s3-local
+  - serverless-dynamodb-local
+  - serverless-offline
+
 
 provider:
   apiGateway:
@@ -19,20 +24,21 @@ provider:
   iamRoleStatements:
     - Effect: "Allow"
       Action:
-        - "s3:GetObject"
-        - "s3:PutObject"
-        - "s3:*"
+        - s3:*
+        - s3:GetObject
+        - s3:PutObject
         - dynamodb:PutItem
         - dynamodb:Scan*
         - dynamodb:GetItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - "arn:aws:s3:::bucketimagecrowdingless"
+        - "arn:aws:s3:::bucketimagecrowdingless/*"
         - "arn:aws:dynamodb:sa-east-1:998571726230:table/crowdingless-employees-dev"
 
+
   environment:
-    DYNAMODB_EMPLOYEE_TABLE: "${self:service}-employees-${opt:stage}"
+    DYNAMODB_EMPLOYEE_TABLE: crowdingless-employees-dev
     bucket: bucketimagecrowdingless
 
 functions:
@@ -106,7 +112,7 @@ resources:
     employeeTable: 
       Type: 'AWS::DynamoDB::Table'
       Properties:
-        TableName: "${self:service}-employees-${opt:stage}"
+        TableName: crowdingless-employees-dev
         AttributeDefinitions:
           - AttributeName: email
             AttributeType: S
