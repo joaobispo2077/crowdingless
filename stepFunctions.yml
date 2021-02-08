@@ -6,7 +6,7 @@ States:
     Type: Task
     Resource: arn:aws:states:::lambda:invoke
     Parameters:
-      FunctionName: {"Fn::Join": [ ":", [  "arn:aws:lambda:sa-east-1", {"Ref": "AWS::AccountId"}, "function:${self:service-${self:provider.state}-addSignup}" ] ]}
+      FunctionName: {"Fn::Join": [ ":", [  "arn:aws:lambda:sa-east-1", {"Ref": "AWS::AccountId"}, "function:${self:service}-${self:provider.stage}-addEmailToDB" ] ]}
       Payload:
         Input.$: "$"
     Next: wait for 1min
@@ -18,14 +18,14 @@ States:
     Type: Task
     Resource: arn:aws:states:::lambda:invoke
     Parameters:
-      FunctionName: {"Fn::Join": [ ":", [  "arn:aws:lambda:sa-east-1", {"Ref": "AWS::AccountId"}, "function:${self:service-${self:provider.state}-readDynamo}" ] ]}
+      FunctionName: {"Fn::Join": [ ":", [  "arn:aws:lambda:sa-east-1", {"Ref": "AWS::AccountId"}, "function:${self:service}-${self:provider.stage}-readDynamo" ] ]}
       Payload:
         Input.$: "$"
     Next: isEmailable
   isEmailable:
     Type: Choice
     Choices:
-    - Variable: "$.Payload.emailer"
+    - Variable: "$.Payload.email"
       StringEquals: 'true'
       Next: close
     Default: sendEmail
@@ -33,7 +33,7 @@ States:
     Type: Task
     Resource: arn:aws:states:::lambda:invoke
     Parameters:
-      FunctionName: {"Fn::Join": [ ":", [  "arn:aws:lambda:sa-east-1", {"Ref": "AWS::AccountId"}, "function:${self:service-${self:provider.state}-sendEmail}" ] ]}
+      FunctionName: {"Fn::Join": [ ":", [  "arn:aws:lambda:sa-east-1", {"Ref": "AWS::AccountId"}, "function:${self:service}-${self:provider.stage}-sendEmail" ] ]}
       Payload:
         Input.$: "$"
     Next: close

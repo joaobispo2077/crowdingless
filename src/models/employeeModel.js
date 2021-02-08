@@ -16,6 +16,7 @@ const employeeModel = new Entity({
   attributes: {
     email: { partitionKey: true },
     name: { type: 'string', required: true },
+    emailable: { type: 'boolean', required: true },
     company: { type: 'string', required: true },
     avatar: { type: 'string',  required: false },
     avatar_name: { type: 'string',  required: false },

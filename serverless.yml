@@ -16,6 +16,19 @@ plugins:
 custom:
   EMPLOYEE_TABLE: crowdingless-employees-${opt:stage}
 
+stepFunctions:
+  validate: true
+  stateMachines:
+    sendEmail: 
+      name: sendEmail
+      events:
+        - http:
+              path: /v1/email/
+              method: POST
+              cors: true
+      definition: ${file(./stepFunctions.yml)}
+
+
 provider:
   apiGateway:
       binaryMediaTypes:
@@ -39,6 +52,8 @@ provider:
       Resource:
         - "arn:aws:s3:::*"
         - "arn:aws:dynamodb:sa-east-1:*:table/crowdingless-employees-${opt:stage}"
+        - "arn:aws:ses:sa-east-1:*:identity/*"
+        - "arn:aws:ses:sa-east-1:998571726230:identity/joaobispo2077@gmail.com"
 
 
   environment:
@@ -110,6 +125,12 @@ functions:
           rules:
             - prefix: uploads/
             - suffix: .jpeg
+  addEmailToDB: 
+    handler: src/lambdas/stepFunctionLambdas/addEmailToDB.handler
+  readDynamo: 
+    handler: src/lambdas/stepFunctionLambdas/readDynamo.handler
+  sendEmail: 
+    handler: src/lambdas/stepFunctionLambdas/sendEmail.handler
 
 resources:
   Resources: 
