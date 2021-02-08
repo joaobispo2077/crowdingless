@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "predeploy": "rm -rf node_modules/sharp && yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
+    "predeploy": "rm -rf node_modules && yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
     "deploy": "serverless deploy -v",
     "postdeploy": "rm -rf node_modules/sharp && yarn add sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
+    "predevdeploy": "rm -rf node_modules && yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
+    "devdeploy": "serverless deploy -v --stage dev",
+    "postdevdeploy": "rm -rf node_modules && yarn install",
     "prewindeploy": "rd /q /s node_modules & yarn add --platform=linux --arch=x64 --target=12.x sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
     "windeploy": "serverless deploy -v",
     "postwindeploy": "rd /q /s node_modules & yarn add sharp aws-serverless-express express cors dynamodb-toolbox aws-sdk morgan multer multer-s3",
